@@ -22,7 +22,6 @@ API_HASH = os.environ.get("API_HASH", "")  # required by Telethon
 LLM_ENDPOINT = os.environ["LLM_ENDPOINT"]
 LLM_MODEL = os.environ["LLM_MODEL"]
 SYSTEM_PROMPT = os.environ["LLM_PROMPT"]
-FILTER_PROMPT = os.environ["FILTER_PROMPT"]
 THINK_MESSAGE = os.environ["THINK_MESSAGE"]
 PERSONA = os.environ["PERSONA"]
 BOT_NAME = os.environ["BOT_NAME"]  # command name without leading slash
@@ -107,7 +106,8 @@ assistant_chat_with_history = RunnableWithMessageHistory(
 async def my_event_handler(event):
     message: Message = event.message
     output_message = route(event.sender.first_name, message.message, event.chat_id)
-    await event.reply(output_message)
+    if output_message:
+        await event.reply(output_message)
 
 
 def route(username: str, message: str, chat_id) -> str:
@@ -118,7 +118,8 @@ def route(username: str, message: str, chat_id) -> str:
     elif verdict.startswith("ASSISTANT"):
         return handle_normal(formated_message, chat_id)
     else:
-        return "skipping"
+        logging.info("No suitable topic. Skipping")
+        pass
 
 
 def handle_personality(message: str, chat_id) -> str:
