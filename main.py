@@ -58,7 +58,7 @@ judge_prompt = ChatPromptTemplate.from_messages([
 ])
 judge_chain = (judge_prompt | judge | StrOutputParser()).with_config(verbose=True)
 
-llm = ChatOllama(model=LLM_MODEL, base_url=LLM_ENDPOINT, temperature=1)
+llm = ChatOllama(model=LLM_MODEL, base_url=LLM_ENDPOINT, temperature=0.7)
 
 mao_prompt = ChatPromptTemplate.from_messages([
     ("system", SYSTEM_PROMPT),
@@ -105,10 +105,12 @@ assistant_chat_with_history = RunnableWithMessageHistory(
 @tg.on(events.NewMessage())
 async def my_event_handler(event):
     message: Message = event.message
-    if is_reply_to_bot(message, tg):
+    if await is_reply_to_bot(message, tg):
+        logging.info("Processing reply")
         output_message = route_reply(event.sender.first_name, message.message, await message.get_reply_message(), event.chat_id)
         await event.reply(output_message)
     else:
+        logging.info("Processing message")
         output_message = route(event.sender.first_name, message.message, event.chat_id)
         if output_message:
             await event.reply(output_message)
