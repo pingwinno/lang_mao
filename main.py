@@ -130,9 +130,9 @@ def route_reply(username: str, message: str, previous_message: str, chat_id) -> 
     formated_message = f"{previous_message}, {username}: {message}"
     verdict = judge_chain.invoke({"persona": PERSONA, "message": formated_message}).strip()
     if verdict.startswith("PERSONA"):  # YES
-        return handle_personality(formated_message, chat_id)
+        return handle_personality(message, chat_id)
     else:
-        return handle_normal(formated_message, chat_id)
+        return handle_normal(message, chat_id)
 
 
 def handle_personality(message: str, chat_id) -> str:
