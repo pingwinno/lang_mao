@@ -44,15 +44,15 @@ tg = TelegramClient("bot_session", API_ID, API_HASH)
 judge = ChatOllama(model=LLM_MODEL, base_url=LLM_ENDPOINT, temperature=0)  # deterministic
 judge_prompt = ChatPromptTemplate.from_messages([
     ("system",
-     "You are a strict classifier."
+     "You are a strict classifier. "
      "There is only 3 types of messages:"
-     "PERSONA"
-     "ASSISTANT"
-     "NOT_RELATED."
-     "Decide if the USER MESSAGE is about:"
-     "topics related to {persona} = PERSONA"
-     "question about something = ASSISTANT"
-     "not related to persona or not asking assistant something = NOT_RELATED"
+     "PERSONA, "
+     "ASSISTANT, "
+     "NOT_RELATED. "
+     "Decide if the USER MESSAGE is about: "
+     "topics related to {persona} = PERSONA. "
+     "question about something = ASSISTANT. "
+     "not related to persona or not asking assistant something = NOT_RELATED. "
      "Return only one of category described above."),
     ("human", "USER MESSAGE:\n{message}\n\nAnswer (YES/NO) only:")
 ])
