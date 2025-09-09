@@ -1,0 +1,4 @@
+asyncio~=4.0.0
+langchain~=0.3.27
+langchain-core~=0.3.75
+Telethon~=1.41.2
