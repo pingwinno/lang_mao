@@ -2,4 +2,3 @@ langchain~=0.3.27
 langchain-core~=0.3.75
 langchain-ollama~=0.2.2
 telethon~=1.41.2
-ollama~=0.3.0
